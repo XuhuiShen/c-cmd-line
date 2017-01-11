@@ -12,6 +12,11 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+typedef enum {
+				SIM_MODE,
+				CMD_MODE
+} run_mode_t;
+
 typedef struct {
 				char *obj_cmd_name;
 				Function *func;
@@ -20,9 +25,13 @@ typedef struct {
 				void *private_data;
 } cmd_t;
 
-extern u64 nr_cycle;
+void init_main_thread_cmd_mode(u64 nr_threads);
+void init_sim_thread_cmd_mode(void);
+void main_loop(pthread_t *pid, u64 nr_threads);
+void try_enter_cmd_mode(int *mode);
+int cmd_sig_handler(pthread_t *pid, u64 nr_threads);
 
-void initialize_readline(void);
-void cmd_mode(void);
+extern cmd_t *obj_commands;
+extern pthread_barrier_t sim_thread_barrier;
 
 #endif // __COMMAND_H__

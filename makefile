@@ -3,7 +3,7 @@ CC = gcc
 SRC += $(shell ls *.c)
 OBJ += $(SRC:.c=.o)
 CFLAGS += -O2 -Wall -g -c
-LDFLAGS += -lreadline
+LDFLAGS += -lreadline -lpthread
 CPPFLAGS += -I$(INCLDIRS)
 OUTPUT = $(shell pwd)/cmd.out
 
