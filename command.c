@@ -8,7 +8,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-pthread_barrier_t sim_thread_barrier;
+pthread_barrier_t thread_barrier;
 
 static int is_continue = 0;
 
@@ -232,9 +232,9 @@ int cmd_sig_handler(pthread_t *pid, u64 nr_threads)
 								}
 				}
 
-				pthread_barrier_wait(&sim_thread_barrier);
+				pthread_barrier_wait(&thread_barrier);
 				cmd_mode();
-				pthread_barrier_wait(&sim_thread_barrier);
+				pthread_barrier_wait(&thread_barrier);
 
 				return 0;
 }
@@ -244,15 +244,15 @@ void init_main_thread_cmd_mode(u64 nr_threads)
 				sigemptyset(&cmdset);
 				sigaddset(&cmdset, SIGINT);
 				assert(!pthread_sigmask(SIG_BLOCK, &cmdset, NULL));
-				pthread_barrier_init(&sim_thread_barrier, NULL, nr_threads + 1);
+				pthread_barrier_init(&thread_barrier, NULL, nr_threads + 1);
 
        	initialize_readline();
 }
 
 void main_loop(pthread_t *pid, u64 nr_threads)
 {
-				pthread_barrier_wait(&sim_thread_barrier);
-				pthread_barrier_wait(&sim_thread_barrier);
+				pthread_barrier_wait(&thread_barrier);
+				pthread_barrier_wait(&thread_barrier);
 
 				cmd_sig_handler(pid, nr_threads);
 
@@ -267,10 +267,9 @@ void try_enter_cmd_mode(int *mode)
 {
 				switch (*mode) {
 				case CMD_MODE:
-								printf("fuck rizi in try_enter_cmd_mode!!\n");
-								pthread_barrier_wait(&sim_thread_barrier);
+								pthread_barrier_wait(&thread_barrier);
 								*mode = SIM_MODE;
-								pthread_barrier_wait(&sim_thread_barrier);
+								pthread_barrier_wait(&thread_barrier);
 								break;
 				case SIM_MODE:
 				default:
@@ -278,8 +277,8 @@ void try_enter_cmd_mode(int *mode)
 				}
 }
 
-void init_sim_thread_cmd_mode(void)
+void init_thread_cmd_mode(void)
 {
-				pthread_barrier_wait(&sim_thread_barrier);
-				pthread_barrier_wait(&sim_thread_barrier);
+				pthread_barrier_wait(&thread_barrier);
+				pthread_barrier_wait(&thread_barrier);
 }

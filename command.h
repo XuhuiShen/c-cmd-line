@@ -1,7 +1,7 @@
 #ifndef __COMMAND_H__
 #define __COMMAND_H__
 
-#include "type.h"
+#include "types.h"
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -26,12 +26,12 @@ typedef struct {
 } cmd_t;
 
 void init_main_thread_cmd_mode(u64 nr_threads);
-void init_sim_thread_cmd_mode(void);
+void init_thread_cmd_mode(void);
 void main_loop(pthread_t *pid, u64 nr_threads);
 void try_enter_cmd_mode(int *mode);
 int cmd_sig_handler(pthread_t *pid, u64 nr_threads);
 
 extern cmd_t *obj_commands;
-extern pthread_barrier_t sim_thread_barrier;
+extern pthread_barrier_t thread_barrier;
 
 #endif // __COMMAND_H__
