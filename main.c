@@ -1,7 +1,12 @@
 #include <stdio.h>
 #include <command.h>
+#include <signal.h>
+#include <assert.h>
+#include <utility.h>
+#include <pthread.h>
 
 #define NR_THREADS 1
+#define MIN_TIME 0
 
 typedef struct {
 				volatile run_mode_t run_mode;
@@ -41,7 +46,7 @@ static void thread_worker()
 				printf("thread run in !\n");
 }
 
-static void *thread_main()
+void *thread_main()
 {
 				thread_state_t *s = &g_state;
 
@@ -53,20 +58,6 @@ static void *thread_main()
 				}
 }
 
-static void main_loop(pthread_t *pid, u64 nr_threads)
-{
-				pthread_barrier_wait(&thread_barrier);
-				pthread_barrier_wait(&thread_barrier);
-
-				cmd_sig_handler(pid, nr_threads);
-
-				while (1) {
-								int sig;
-								assert(!sigwait(&cmdset, &sig));
-								cmd_sig_handler(pid, nr_threads);
-				}
-}
-
 static void create_threads(u64 nr_threads)
 {
 				int i;
@@ -74,7 +65,7 @@ static void create_threads(u64 nr_threads)
 				g_pids = xmalloc(nr_threads * sizeof(*g_pids));
 				for (i = 0; i < nr_threads; i++)
 								assert(!pthread_create(&g_pids[i], NULL,
-																				thread_main, NULL));
+																				(void *)thread_main, NULL));
 				debug("ok\n");
 }
 
