@@ -30,7 +30,7 @@ static void init_thread_state(thread_state_t *s)
 {
 				s->run_mode = CMD_MODE;
 				s->current_time = MIN_TIME;
-				s->current_object_id = -1;
+				s->current_thread_id = -1;
 
 				register_sigaction();
 				init_thread_cmd_mode();
