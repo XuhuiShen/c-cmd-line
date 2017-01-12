@@ -4,7 +4,6 @@
 #define NR_THREADS 1
 
 typedef struct {
-				thread_arg_t arg;
 				volatile run_mode_t run_mode;
 				u64 current_time;
 				u64 current_thread_id;
@@ -45,6 +44,8 @@ static void thread_worker()
 static void *thread_main()
 {
 				thread_state_t *s = &g_state;
+
+				init_thread_state(s);
 
 				while (1) {
 								try_enter_cmd_mode((int *)&(g_state.run_mode));
