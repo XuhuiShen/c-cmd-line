@@ -6,8 +6,8 @@
 #include <stdio.h>
 
 #define CACHE_LINE_SIZE 64
-#define cache_aligned(exp)				\
-	exp __attribute__ ((aligned (CACHE_LINE_SIZE)))
+#define cache_aligned(exp)															\
+				exp __attribute__ ((aligned (CACHE_LINE_SIZE)))
 
 #define alignof(x) __alignof__(x)
 
@@ -24,8 +24,8 @@ void *xcalloc(size_t nmemb, size_t size);
 
 #define debug(args...) do { printf(args); fflush(stdout); } while (0)
 
-#define container_of(ptr, type, member) ({			\
-	const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
-	(type *)( (char *)__mptr - offsetof(type, member) );})
+#define container_of(ptr, type, member) ({															\
+												const typeof( ((type *)0)->member ) *__mptr = (ptr); \
+												(type *)( (char *)__mptr - offsetof(type, member) );})
 
 #endif // __UTILITY_H__

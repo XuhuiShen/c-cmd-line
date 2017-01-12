@@ -11,7 +11,6 @@
 typedef struct {
 				volatile run_mode_t run_mode;
 				u64 current_time;
-				u64 current_thread_id;
 } thread_state_t;
 
 static pthread_t *g_pids;
@@ -35,15 +34,15 @@ static void init_thread_state(thread_state_t *s)
 {
 				s->run_mode = CMD_MODE;
 				s->current_time = MIN_TIME;
-				s->current_thread_id = -1;
 
 				register_sigaction();
-				init_thread_cmd_mode();
+				init_sim_thread_cmd_mode();
 }
 
 static void thread_worker()
 {
-				printf("thread run in !\n");
+				g_state.current_time++;
+				printf("thread run in %lu!\n", g_state.current_time);
 }
 
 void *thread_main()

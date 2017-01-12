@@ -26,10 +26,9 @@ typedef struct {
 } cmd_t;
 
 void init_main_thread_cmd_mode(u64 nr_threads);
-void init_thread_cmd_mode(void);
+void init_sim_thread_cmd_mode(void);
 void main_loop(pthread_t *pid, u64 nr_threads);
 void try_enter_cmd_mode(int *mode);
-int cmd_sig_handler(pthread_t *pid, u64 nr_threads);
 
 extern cmd_t *obj_commands;
 extern pthread_barrier_t thread_barrier;

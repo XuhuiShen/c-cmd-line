@@ -18,44 +18,14 @@ static sigset_t cmdset;
 static int cmd_continue(void);
 static int cmd_exit(void);
 static int cmd_help(char *cmd, char *params);
-static int cmd_run(char *cmd, char *params);
-static int cmd_run_to_nr_cycle(char *cmd, char *params);
-
-u64 nr_cycle = 0;
 
 cmd_t commands[] = {
 				{ "continue", cmd_continue, "Continue x...", NULL, NULL },
 				{ "exit", cmd_exit, "Exit x... ", NULL, NULL },
 				{ "help", cmd_help, "Help x ...", NULL, NULL },
 				{ "quit", cmd_exit, "quit x ...", NULL, NULL },
-				{ "run", cmd_run, "run x... ", NULL, NULL },
-				{ "runto", cmd_run_to_nr_cycle, "runto x... ", NULL, NULL },
 				{ NULL, NULL, NULL, NULL, NULL }
 };
-
-static int cmd_run(char *cmd, char *params)
-{
-				if (!*params) {
-								printf("Please input a run cycle!\n");
-								return 0;
-				}
-
-				nr_cycle += strtol(params, (char **)NULL, 10);
-				is_continue = 1;
-				return 0;
-}
-
-static int cmd_run_to_nr_cycle(char *cmd, char *params)
-{
-				if (!*params) {
-								printf("Please input a run cycle!\n");
-								return 0;
-				}
-
-				nr_cycle = strtol(params, (char **)NULL, 10);
-				is_continue = 1;
-				return 0;
-}
 
 static int cmd_continue(void)
 {
@@ -120,7 +90,7 @@ static cmd_t* find_command(char *name)
 				return ((cmd_t *)NULL);
 }
 
-char* stripwhite(char *string)
+static char* stripwhite(char *string)
 {
 				char *s, *t;
 
@@ -138,7 +108,7 @@ char* stripwhite(char *string)
 				return s;
 }
 
-int execute_line(char *line)
+static int execute_line(char *line)
 {
 				int i;
 				cmd_t *command;
@@ -222,7 +192,7 @@ static void cmd_mode(void)
 				}
 }
 
-int cmd_sig_handler(pthread_t *pid, u64 nr_threads)
+static int cmd_sig_handler(pthread_t *pid, u64 nr_threads)
 {
 				int i;
 				for (i = 0; i < nr_threads; i++) {
@@ -277,7 +247,7 @@ void try_enter_cmd_mode(int *mode)
 				}
 }
 
-void init_thread_cmd_mode(void)
+void init_sim_thread_cmd_mode(void)
 {
 				pthread_barrier_wait(&thread_barrier);
 				pthread_barrier_wait(&thread_barrier);
