@@ -13,16 +13,16 @@
 #include <readline/history.h>
 
 typedef enum {
-				SIM_MODE,
-				CMD_MODE
+	SIM_MODE,
+	CMD_MODE
 } run_mode_t;
 
 typedef struct {
-				char *obj_cmd_name;
-				Function *func;
-				char *doc;
-				const char *cmd_name;
-				void *private_data;
+	char *obj_cmd_name;
+	Function *func;
+	char *doc;
+	const char *cmd_name;
+	void *private_data;
 } cmd_t;
 
 void init_main_thread_cmd_mode(u64 nr_threads);
