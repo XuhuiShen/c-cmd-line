@@ -3,11 +3,11 @@
 
 int main()
 {
-				initialize_readline();
-				for (;;) {
-								cmd_mode();
-								printf("Current nr_cycle is %lu\n", nr_cycle);
-				}
+	initialize_readline();
+	for (;;) {
+		cmd_mode();
+		printf("Current nr_cycle is %lu\n", nr_cycle);
+	}
 
-				return 0;
+	return 0;
 }

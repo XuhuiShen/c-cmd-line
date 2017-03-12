@@ -13,11 +13,11 @@
 #include <readline/history.h>
 
 typedef struct {
-				char *obj_cmd_name;
-				Function *func;
-				char *doc;
-				const char *cmd_name;
-				void *private_data;
+	char *obj_cmd_name;
+	Function *func;
+	char *doc;
+	const char *cmd_name;
+	void *private_data;
 } cmd_t;
 
 extern u64 nr_cycle;
